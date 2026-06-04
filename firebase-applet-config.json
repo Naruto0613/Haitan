@@ -1,10 +1,9 @@
 {
-  "projectId": "plexiform-music-77k72",
-  "appId": "1:320287351672:web:c9cf36f0ee4a5eb8f95e8d",
-  "apiKey": "AIzaSyCql5y7_C68BFJIvwtd8mPIgtNP7fnXtNw",
-  "authDomain": "plexiform-music-77k72.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-70e6018a-be86-42f3-8481-ee253a7ace94",
-  "storageBucket": "plexiform-music-77k72.firebasestorage.app",
-  "messagingSenderId": "320287351672",
-  "measurementId": ""
+  "apiKey": "AIzaSyA4OuFc7Skryp2X1A32KoJE2hP4I2XT05o",
+  "authDomain": "haitan.firebaseapp.com",
+  "projectId": "haitan",
+  "storageBucket": "haitan.firebasestorage.app",
+  "messagingSenderId": "513905374450",
+  "appId": "1:513905374450:web:c8cf57227520c4859f4c6b",
+  "measurementId": "G-6WR0WCH3SE"
 }
