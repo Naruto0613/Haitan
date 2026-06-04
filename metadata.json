@@ -1,0 +1,8 @@
+{
+  "name": "Haitan",
+  "description": "An epic comic reading platform dedicated to Mongolian history and warrior culture, featuring historical narratives in a cinematic visual style.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

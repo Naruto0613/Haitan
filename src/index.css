@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-gold: #c9a84c;
+  --color-brand-amber: #ffbf00;
+  --color-brand-dark: #0d0d0d;
+  --color-brand-charcoal: #1a1a1a;
+  --color-brand-cream: #e0d7c6;
+  
+  --font-serif: "Playfair Display", serif;
+  --font-display: "Cinzel", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-dark text-brand-cream font-serif;
+  }
+}
+
+@layer components {
+  .top-banner-gradient {
+    @apply h-1 w-full bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-50;
+  }
+
+  .nav-link {
+    @apply text-sm uppercase tracking-widest transition-colors hover:text-brand-gold;
+  }
+
+  .nav-link-active {
+    @apply text-brand-gold border-b border-brand-gold;
+  }
+
+  .cinzel {
+    font-family: 'Cinzel', serif;
+  }
+
+  /* Custom selection color */
+  ::selection {
+    background: #c5a059;
+    color: #0c0c0c;
+  }
+}
+
+.soyombo-pattern {
+  mask-image: radial-gradient(circle, transparent 20%, #000 21%);
+  background-size: 20px 20px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-brand-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-gold/30 hover:bg-brand-gold/50 transition-colors rounded-full;
+}

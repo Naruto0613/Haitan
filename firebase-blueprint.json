@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profiles synchronized from authentication.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier of the user" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "format": "uri", "description": "User profile picture URL" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["uid"]
+    },
+    "Comic": {
+      "title": "Comic",
+      "description": "A nomadic saga comic book or novel.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Deterministic or auto-generated comic ID" },
+        "title": { "type": "string", "description": "Comic Title" },
+        "author": { "type": "string", "description": "Author of the comic" },
+        "tagline": { "type": "string", "description": "Brief catchy subtitle" },
+        "description": { "type": "string", "description": "Detailed synopsis" },
+        "coverImage": { "type": "string", "description": "Image URL of the cover art" },
+        "episodeCount": { "type": "integer", "description": "Total number of episodes" },
+        "status": { "type": "string", "enum": ["Үргэлжилж буй", "Дууссан", "Ongoing", "Completed"], "description": "Publishing status" },
+        "category": { "type": "string", "description": "Genre category" },
+        "chapters": { "type": "array", "description": "Array of chapters containing id, number, title, releaseDate, pages" }
+      },
+      "required": ["id", "title", "coverImage"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User feedback and reviews submitted to the admin inbox.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Feedback ID" },
+        "userId": { "type": "string", "description": "User UID who submitted the feedback" },
+        "userName": { "type": "string", "description": "Display name of reviewer" },
+        "userPhoto": { "type": "string", "description": "Profile photo of reviewer" },
+        "email": { "type": "string", "description": "Reviewer email address" },
+        "message": { "type": "string", "description": "Feedback body text" },
+        "rating": { "type": "integer", "description": "Star rating out of 5" },
+        "isRead": { "type": "boolean", "description": "Whether read by admin" },
+        "createdAt": { "type": "string", "description": "Date submitted" }
+      },
+      "required": ["id", "userId", "message", "rating"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "User comment posted on a comic book page.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Comment ID" },
+        "comicId": { "type": "string", "description": "Target comic ID" },
+        "comicTitle": { "type": "string", "description": "Target comic Title" },
+        "userId": { "type": "string", "description": "User UID who commented" },
+        "userName": { "type": "string", "description": "User name of commenter" },
+        "userPhoto": { "type": "string", "description": "User photo URL" },
+        "text": { "type": "string", "description": "Comment text content" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["id", "comicId", "userId", "text"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "Collection of registered users"
+    },
+    "comics": {
+      "schema": "Comic",
+      "description": "Collection of sagas (comics)"
+    },
+    "feedbacks": {
+      "schema": "Feedback",
+      "description": "User feedback or reviews"
+    },
+    "comments": {
+      "schema": "Comment",
+      "description": "User comments across all comics"
+    }
+  }
+}
