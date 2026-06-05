@@ -98,25 +98,25 @@ export default function Reader() {
   };
 
   return (
-    <div className="bg-brand-dark min-h-screen relative flex flex-col">
+    <div className="bg-brand-dark min-h-screen relative flex flex-col overflow-x-hidden w-full">
       {/* Top Bar Reader Panel */}
-      <div className="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-md border-b border-brand-gold/20 h-16 flex items-center justify-between px-4">
-        <div className="flex items-center gap-4">
-          <Link to="/library" className="p-2 text-brand-cream/40 hover:text-brand-gold">
+      <div className="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-md border-b border-brand-gold/20 h-16 flex items-center justify-between px-2 sm:px-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <Link to="/library" className="p-2 text-brand-cream/40 hover:text-brand-gold shrink-0">
             <ChevronLeft size={24} />
           </Link>
-          <div className="hidden sm:block">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-brand-gold block font-bold leading-none mb-1 italic">
+          <div className="min-w-0">
+            <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] text-brand-gold block font-bold leading-none mb-1 italic truncate max-w-[120px] sm:max-w-none">
               {comic.title}
             </span>
-            <span className="text-sm font-display font-medium text-white tracking-widest truncate max-w-[200px] block font-sans uppercase">
+            <span className="text-xs sm:text-sm font-display font-medium text-white tracking-widest truncate max-w-[120px] sm:max-w-[200px] block font-sans uppercase">
               БҮЛЭГ.{chapter.number}: {chapter.title}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-6">
-          <div className="flex items-center bg-brand-charcoal rounded-xl p-1 border border-brand-gold/10">
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="hidden md:flex items-center bg-brand-charcoal rounded-xl p-1 border border-brand-gold/10">
             <button onClick={() => setZoom(Math.max(50, zoom - 10))} className="p-2 text-brand-cream/40 hover:text-brand-gold group">
               <ZoomOut size={18} />
             </button>
@@ -128,18 +128,18 @@ export default function Reader() {
           
           <button 
             onClick={() => setSidebarOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-gold text-brand-dark rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-brand-amber transition-colors"
+            className="flex items-center gap-2 p-2 px-3 sm:px-4 sm:py-2 bg-brand-gold text-brand-dark rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-brand-amber transition-colors"
           >
             <List size={16} />
-            <span className="hidden md:inline">Бүлгүүд</span>
+            <span className="hidden sm:inline">Бүлгүүд</span>
           </button>
         </div>
       </div>
 
-      <div className="flex-grow flex justify-center bg-brand-dark py-8 px-4">
+      <div className="flex-grow flex justify-center bg-brand-dark py-4 sm:py-8 px-0 sm:px-4">
         <div 
-          className="flex flex-col items-center gap-0 w-full"
-          style={{ maxWidth: `${zoom}%`, width: '100%', minWidth: '320px' }}
+          className="flex flex-col items-center gap-0 w-full mx-auto"
+          style={{ maxWidth: `${(zoom / 100) * 800}px`, width: '100%' }}
         >
           {chapter.pages.map((page, idx) => (
             <motion.div
@@ -163,39 +163,39 @@ export default function Reader() {
           ))}
           
           {/* Chapter navigation at bottom */}
-          <div className="w-full max-w-2xl py-20 flex flex-col items-center border-t border-brand-gold/10 mt-12 bg-gradient-to-b from-brand-dark to-brand-charcoal p-12 rounded-2xl">
-            <p className="text-brand-gold font-display text-lg tracking-[0.3em] font-medium mb-12 uppercase italic">Бүлэг дууслаа</p>
+          <div className="w-[calc(100%-2rem)] sm:w-full max-w-2xl py-12 sm:py-20 flex flex-col items-center border-t border-brand-gold/10 mt-12 bg-gradient-to-b from-brand-dark to-brand-charcoal p-6 sm:p-12 rounded-2xl">
+            <p className="text-brand-gold font-display text-base sm:text-lg tracking-[0.3em] font-medium mb-8 sm:mb-12 uppercase italic">Бүлэг дууслаа</p>
             
-            <div className="grid grid-cols-2 w-full gap-8">
+            <div className="grid grid-cols-2 w-full gap-4 sm:gap-8">
               <button
                 disabled={currentChapterIdx === 0}
                 onClick={handlePrev}
-                className="flex flex-col items-center gap-4 py-8 border border-brand-gold/10 hover:border-brand-gold/50 group transition-all disabled:opacity-30 disabled:pointer-events-none rounded-2xl"
+                className="flex flex-col items-center gap-3 sm:gap-4 py-4 sm:py-8 border border-brand-gold/10 hover:border-brand-gold/50 group transition-all disabled:opacity-30 disabled:pointer-events-none rounded-2xl"
               >
-                <ChevronLeft size={32} className="text-brand-gold group-hover:-translate-x-2 transition-transform" />
-                <span className="text-[10px] uppercase tracking-widest text-brand-cream/40">Өмнөх БҮЛЭГ</span>
+                <ChevronLeft size={24} className="text-brand-gold group-hover:-translate-x-2 transition-transform sm:w-8 sm:h-8" />
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-brand-cream/40 text-center">Өмнөх БҮЛЭГ</span>
               </button>
 
               <button
                 disabled={currentChapterIdx === (comic.chapters?.length ?? 0) - 1}
                 onClick={handleNext}
-                className="flex flex-col items-center gap-4 py-8 border border-brand-gold/10 hover:border-brand-gold/50 group transition-all disabled:opacity-30 disabled:pointer-events-none rounded-2xl"
+                className="flex flex-col items-center gap-3 sm:gap-4 py-4 sm:py-8 border border-brand-gold/10 hover:border-brand-gold/50 group transition-all disabled:opacity-30 disabled:pointer-events-none rounded-2xl"
               >
-                <ChevronRight size={32} className="text-brand-gold group-hover:translate-x-2 transition-transform" />
-                <span className="text-[10px] uppercase tracking-widest text-brand-cream/40">Дараах БҮЛЭГ</span>
+                <ChevronRight size={24} className="text-brand-gold group-hover:translate-x-2 transition-transform sm:w-8 sm:h-8" />
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-brand-cream/40 text-center">Дараах БҮЛЭГ</span>
               </button>
             </div>
 
             <Link
               to="/library"
-              className="mt-12 text-brand-cream/40 hover:text-brand-gold transition-colors text-xs uppercase tracking-[0.4em] font-bold"
+              className="mt-12 text-brand-cream/40 hover:text-brand-gold transition-colors text-xs uppercase tracking-[0.4em] font-bold text-center"
             >
               Номын сан руу буцах
             </Link>
           </div>
 
           {/* Comments Section */}
-          <div className="w-full max-w-2xl py-10 px-8 bg-brand-charcoal border border-brand-gold/10 rounded-2xl mt-12 text-left">
+          <div className="w-[calc(100%-2rem)] sm:w-full max-w-2xl py-8 px-4 sm:px-8 bg-brand-charcoal border border-brand-gold/10 rounded-2xl mt-12 text-left">
             <div className="flex items-center gap-3 border-b border-brand-gold/10 pb-4 mb-6">
               <MessageSquare className="text-brand-gold" size={20} />
               <h3 className="text-sm font-display font-bold text-white uppercase tracking-widest">Хэлэлцүүлэг ({comments.length})</h3>
@@ -285,15 +285,15 @@ export default function Reader() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 bottom-0 w-[400px] max-w-full bg-brand-charcoal z-[60] border-l border-brand-gold/20 shadow-[-20px_0_40px_rgba(0,0,0,0.5)] p-0 flex flex-col"
             >
-              <div className="p-8 border-b border-brand-gold/10 flex justify-between items-center">
-                <h3 className="text-2xl font-display font-bold text-white tracking-widest uppercase italic">Бүлгүүд</h3>
-                <button onClick={() => setSidebarOpen(false)} className="text-brand-cream/40 hover:text-brand-gold">
+              <div className="p-5 sm:p-8 border-b border-brand-gold/10 flex justify-between items-center">
+                <h3 className="text-xl sm:text-2xl font-display font-bold text-white tracking-widest uppercase italic">Бүлгүүд</h3>
+                <button onClick={() => setSidebarOpen(false)} className="text-brand-cream/40 hover:text-brand-gold p-1">
                   <ChevronRight size={24} />
                 </button>
               </div>
               
-              <div className="flex-grow overflow-y-auto px-4 py-8">
-                <div className="flex flex-col gap-4">
+              <div className="flex-grow overflow-y-auto px-3 sm:px-4 py-6 sm:py-8">
+                <div className="flex flex-col gap-3 sm:gap-4">
                   {(comic.chapters || []).map((ch) => (
                     <button
                       key={ch.id}
@@ -301,24 +301,24 @@ export default function Reader() {
                         navigate(`/reader/${comic.id}/${ch.id}`);
                         setSidebarOpen(false);
                       }}
-                      className={`flex items-center gap-6 p-6 border transition-all text-left group ${
+                      className={`flex items-center gap-4 sm:gap-6 p-4 sm:p-6 border transition-all text-left group rounded-xl ${
                         ch.id === chapter.id 
                         ? 'border-brand-gold bg-brand-gold/5' 
                         : 'border-white/5 hover:border-brand-gold/40'
                       }`}
                     >
-                      <span className={`text-4xl font-display font-black transition-colors ${
+                      <span className={`text-2xl sm:text-4xl font-display font-black transition-colors ${
                         ch.id === chapter.id ? 'text-brand-gold' : 'text-stone-800 group-hover:text-stone-700'
                       }`}>
                         {ch.number.toString().padStart(2, '0')}
                       </span>
-                      <div>
-                        <h4 className={`font-bold transition-colors mb-1 ${
+                      <div className="min-w-0 flex-1">
+                        <h4 className={`font-bold transition-colors mb-1 text-xs sm:text-sm truncate ${
                           ch.id === chapter.id ? 'text-brand-gold' : 'text-stone-300'
                         }`}>
                           {ch.title}
                         </h4>
-                        <span className="text-[10px] uppercase tracking-widest text-stone-500">{ch.releaseDate}</span>
+                        <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-stone-500 block">{ch.releaseDate}</span>
                       </div>
                     </button>
                   ))}

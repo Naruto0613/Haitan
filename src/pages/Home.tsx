@@ -19,41 +19,41 @@ export default function Home() {
   const featured = comics[0];
 
   return (
-    <div className="flex flex-col gap-16 pb-20 p-8">
+    <div className="flex flex-col gap-10 sm:gap-16 pb-20 p-4 sm:p-8">
       {/* Hero Banner Area */}
-      <section className="relative h-[450px] w-full bg-brand-charcoal rounded-2xl overflow-hidden border border-brand-gold/20 group">
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/20 to-transparent z-10" />
+      <section className="relative min-h-[420px] sm:min-h-0 sm:h-[450px] w-full bg-brand-charcoal rounded-2xl overflow-hidden border border-brand-gold/20 group flex flex-col justify-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/40 to-transparent z-10" />
         <div className="absolute inset-0 opacity-40 group-hover:scale-110 transition-transform duration-[2000ms]">
           <img
-            src="/src/assets/images/haitan_hero_1779099801289.png"
+            src="/assets/images/haitan_hero_1779099801289.png"
             alt="Haitan Hero"
             className="w-full h-full object-cover grayscale brightness-75"
             referrerPolicy="no-referrer"
           />
         </div>
         
-        <div className="relative z-20 h-full flex flex-col justify-center px-12 md:px-20 max-w-3xl">
+        <div className="relative z-20 flex flex-col justify-center py-12 px-5 sm:px-12 md:px-20 max-w-2xl">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-brand-gold text-[10px] font-bold tracking-[0.5em] mb-4 block uppercase leading-none">Онцлох Тууль</span>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter leading-[0.9] mb-6 uppercase italic text-brand-cream">
+            <span className="text-brand-gold text-[9px] sm:text-[10px] font-bold tracking-[0.5em] mb-4 block uppercase leading-none">Онцлох Тууль</span>
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-black tracking-tighter leading-[0.95] mb-5 uppercase italic text-brand-cream">
               Бэх ба Цус:<br/>
               <span className="text-brand-gold">Төмөр Хаган</span>
             </h2>
-            <p className="max-w-md text-sm text-brand-cream/70 font-serif leading-relaxed mb-8 italic border-l border-brand-gold/20 pl-4">
+            <p className="max-w-md text-xs sm:text-sm text-brand-cream/70 font-serif leading-relaxed mb-6 italic border-l border-brand-gold/20 pl-4">
               "{featured.tagline}"
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-col xs:flex-row gap-3">
               <Link
                 to={`/reader/${featured.id}/c1`}
-                className="px-8 py-3 bg-brand-gold text-brand-dark text-xs font-black uppercase tracking-[0.2em] shadow-lg hover:bg-brand-amber transition-colors rounded-xl"
+                className="px-6 py-3 sm:px-8 bg-brand-gold text-brand-dark text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] shadow-lg hover:bg-brand-amber transition-colors rounded-xl text-center flex-1 xs:flex-none"
               >
                 Одоо унших
               </Link>
-              <button className="px-8 py-3 border border-brand-gold/40 text-brand-gold text-xs font-black uppercase tracking-[0.2em] hover:bg-brand-gold/10 transition-colors rounded-xl">
+              <button className="px-6 py-3 sm:px-8 border border-brand-gold/40 text-brand-gold text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] hover:bg-brand-gold/10 transition-colors rounded-xl text-center flex-1 xs:flex-none">
                 Архивт нэмэх
               </button>
             </div>
@@ -73,7 +73,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-12 xl:grid-cols-4">
           {comics.map((comic, idx) => (
             <motion.div
               key={comic.id}

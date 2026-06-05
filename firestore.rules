@@ -13,7 +13,7 @@ service cloud.firestore {
 
     function isAdmin() {
       // Allow only the 2 hardcoded Gmail admin accounts
-      return isEmailVerified() && (
+      return isSignedIn() && (
         request.auth.token.email == 'naranbadrakh1013@gmail.com' ||
         request.auth.token.email == 'haitan.admin@gmail.com'
       );

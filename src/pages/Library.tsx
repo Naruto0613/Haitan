@@ -27,15 +27,15 @@ export default function Library() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16 min-h-screen">
-      <div className="mb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-16 min-h-screen">
+      <div className="mb-10 sm:mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <History size={24} className="text-brand-gold" />
-              <h1 className="text-4xl font-display font-bold text-white tracking-widest uppercase italic">Их Номын Сан</h1>
+              <h1 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-widest uppercase italic">Их Номын Сан</h1>
             </div>
-            <p className="text-brand-cream/60 font-serif italic max-w-xl">
+            <p className="text-xs sm:text-sm text-brand-cream/60 font-serif italic max-w-xl">
               "Мянган жилийн цуурай цаг хугацаанд нам гүм байсан ч одоо бэхийн дуслаар дахин төрж байна. Эзэнт гүрний цуглуулсан шастируудыг сонирхоно уу."
             </p>
           </div>
@@ -47,17 +47,17 @@ export default function Library() {
               placeholder="Шастираас хайх..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-brand-charcoal/50 border border-brand-gold/10 focus:border-brand-gold outline-none py-4 pl-12 pr-6 text-brand-cream font-medium placeholder:text-brand-cream/20 transition-all focus:ring-1 focus:ring-brand-gold/20 rounded-xl"
+              className="w-full bg-brand-charcoal/50 border border-brand-gold/10 focus:border-brand-gold outline-none py-3 sm:py-4 pl-12 pr-6 text-brand-cream text-xs sm:text-sm font-medium placeholder:text-brand-cream/20 transition-all focus:ring-1 focus:ring-brand-gold/20 rounded-xl"
             />
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-4 border-b border-brand-gold/10 pb-8">
+        <div className="flex flex-wrap gap-2 sm:gap-4 border-b border-brand-gold/10 pb-6 sm:pb-8">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-2 text-[10px] uppercase tracking-widest font-bold transition-all border rounded-full ${
+              className={`px-3 sm:px-6 py-1.5 sm:py-2 text-[9px] sm:text-[10px] uppercase tracking-widest font-bold transition-all border rounded-full ${
                 activeCategory === cat
                   ? 'bg-brand-gold border-brand-gold text-brand-dark'
                   : 'bg-brand-charcoal border-white/5 text-brand-cream/40 hover:border-brand-gold/50 hover:text-brand-gold'
@@ -70,7 +70,7 @@ export default function Library() {
       </div>
 
       {filteredComics.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-10 sm:gap-y-16">
           {filteredComics.map((comic, idx) => (
             <motion.div
               key={comic.id}

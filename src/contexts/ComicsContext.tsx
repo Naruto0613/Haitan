@@ -18,9 +18,15 @@ export const ComicsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   useEffect(() => {
     const comicsCol = collection(db, 'comics');
     const unsubscribe = onSnapshot(comicsCol, async (snapshot) => {
-      if (snapshot.empty) {
-        console.log("No comics in database, seeding from mock data...");
+      const docs = snapshot.docs.map(docSnap => docSnap.data() as Comic);
+      const configDoc = docs.find(d => d.id === '_config');
+      const actualComics = docs.filter(d => d.id && !d.id.startsWith('_'));
+
+      if (!configDoc && actualComics.length === 0) {
+        console.log("No comics in database and config not found, seeding from mock data...");
         try {
+          // Set the config document first to prevent race conditions or re-seeding
+          await setDoc(doc(db, 'comics', '_config'), { id: '_config', title: 'Config', author: 'System' } as any);
           for (const comic of MOCK_COMICS) {
             await setDoc(doc(db, 'comics', comic.id), comic);
           }
@@ -28,12 +34,8 @@ export const ComicsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           console.error("Seeding failed: ", error);
         }
       } else {
-        const list: Comic[] = [];
-        snapshot.forEach((docSnap) => {
-          list.push(docSnap.data() as Comic);
-        });
-        list.sort((a, b) => a.id.localeCompare(b.id));
-        setComics(list);
+        actualComics.sort((a, b) => a.id.localeCompare(b.id));
+        setComics(actualComics);
         setLoading(false);
       }
     }, (error) => {

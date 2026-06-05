@@ -57,45 +57,45 @@ export default function About() {
   ];
 
   return (
-    <div className="pt-10 px-8">
+    <div className="pt-4 sm:pt-10 px-4 sm:px-8">
       {/* Intro Section */}
-      <section className="max-w-4xl mx-auto py-24 text-center">
+      <section className="max-w-4xl mx-auto py-12 sm:py-24 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
         >
-          <span className="text-brand-gold font-display font-bold tracking-[0.5em] uppercase text-[10px] mb-6 block">Бидний Зорилго</span>
-          <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-12 tracking-tight uppercase leading-none italic">
+          <span className="text-brand-gold font-display font-bold tracking-[0.5em] uppercase text-[10px] mb-4 sm:mb-6 block">Бидний Зорилго</span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-display font-black text-white mb-6 sm:mb-12 tracking-tight uppercase leading-none italic">
             Мөнх Тэнгэр Дахь <span className="text-brand-gold">Цуурай</span>
           </h1>
-          <p className="text-xl text-brand-cream/60 font-serif leading-relaxed italic mb-16 px-4">
+          <p className="text-base sm:text-xl text-brand-cream/60 font-serif leading-relaxed italic mb-8 sm:mb-16 px-2 sm:px-4">
             "Haitan бол хоёр ертөнцийн уулзвар юм: бийрийн эртний бэх ба дэлгэцийн дижитал гэрэл. Бидний нэр түүхэн тэмдэглэл гэсэн утгаас гаралтай бөгөөд бидний зорилгыг тодорхойлдог."
           </p>
         </motion.div>
       </section>
 
       {/* Vision Blocks */}
-      <section className="grid md:grid-cols-2 h-[500px] border-y border-brand-gold/10 rounded-2xl overflow-hidden">
-        <div className="relative overflow-hidden group">
+      <section className="grid grid-cols-1 md:grid-cols-2 md:h-[500px] border-y border-brand-gold/10 rounded-2xl overflow-hidden">
+        <div className="relative h-64 md:h-full overflow-hidden group">
           <img 
-            src="/src/assets/images/comic_cover_warrior_1779099818296.png" 
+            src="/assets/images/comic_cover_warrior_1779099818296.png" 
             alt="Warrior" 
             className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-70 transition-all duration-[2000ms]"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-brand-dark/20" />
         </div>
-        <div className="bg-brand-charcoal p-12 md:p-20 flex flex-col justify-center border-l border-brand-gold/10">
-          <h2 className="text-3xl font-display font-bold text-brand-gold mb-6 uppercase tracking-widest leading-none italic">Бэх ба Өв</h2>
-          <p className="text-brand-cream/60 font-serif leading-relaxed text-lg italic border-l border-brand-gold/10 pl-6">
+        <div className="bg-brand-charcoal p-6 sm:p-12 md:p-20 flex flex-col justify-center border-t md:border-t-0 md:border-l border-brand-gold/10">
+          <h2 className="text-2xl sm:text-3xl font-display font-bold text-brand-gold mb-4 sm:mb-6 uppercase tracking-widest leading-none italic">Бэх ба Өв</h2>
+          <p className="text-brand-cream/60 font-serif leading-relaxed text-sm sm:text-lg italic border-l border-brand-gold/10 pl-4 sm:pl-6">
             Улаанбаатар хотоос үүсэлтэй Haitan нь түүхээ уйтгартай сурах бичигт үлдэхийг хараад залхсан уран бүтээлчдийн жижиг хүрээнээс эхэлсэн. Өвөг дээдсийн минь догшин ширүүн зан, мэргэн ухаан орчин үеийн график романы хэмжээнд байх ёстой гэж бид үздэг.
           </p>
         </div>
       </section>
 
       {/* Values Grid */}
-      <section className="max-w-7xl mx-auto py-32 grid md:grid-cols-3 gap-16 px-8">
+      <section className="max-w-7xl mx-auto py-16 sm:py-32 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-16 px-2 sm:px-8">
         {values.map((v, i) => (
           <motion.div 
             key={i}
@@ -125,7 +125,7 @@ export default function About() {
       </section>
 
       {/* User Feedback Submission Form */}
-      <section className="max-w-2xl mx-auto bg-brand-charcoal border-2 border-brand-gold/10 rounded-3xl p-8 md:p-12 mb-24 text-left shadow-2xl relative overflow-hidden">
+      <section className="max-w-2xl mx-auto bg-brand-charcoal border-2 border-brand-gold/10 rounded-3xl p-5 sm:p-12 mb-24 text-left shadow-2xl relative overflow-hidden">
         <div className="soyombo-pattern absolute inset-0 opacity-5 pointer-events-none" />
         <div className="relative z-10">
           <div className="flex items-center gap-3 border-b border-brand-gold/10 pb-4 mb-6">

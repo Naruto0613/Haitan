@@ -18,7 +18,7 @@ import {
   Loader2,
   FileSpreadsheet
 } from 'lucide-react';
-import { db, auth, storage } from '../lib/firebase';
+import { db, auth, storage, handleFirestoreError, OperationType } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -92,15 +92,26 @@ export default function Admin() {
     if (!isAdminUser) return;
 
     // Load Comics
-    const unsubscribeComics = onSnapshot(collection(db, 'comics'), (snapshot) => {
-      const list: Comic[] = [];
-      snapshot.forEach(d => {
-        list.push({ ...d.data() } as Comic);
-      });
-      list.sort((a, b) => a.id.localeCompare(b.id));
-      setComicsList(list);
-      setLoading(false);
-    });
+    const unsubscribeComics = onSnapshot(
+      collection(db, 'comics'), 
+      (snapshot) => {
+        const list: Comic[] = [];
+        snapshot.forEach(d => {
+          const data = d.data() as Comic;
+          if (data && data.id && !data.id.startsWith('_')) {
+            list.push({ ...data } as Comic);
+          }
+        });
+        list.sort((a, b) => a.id.localeCompare(b.id));
+        setComicsList(list);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("onSnapshot comics error:", error);
+        handleFirestoreError(error, OperationType.LIST, 'comics');
+        setLoading(false);
+      }
+    );
 
     // Load Feedbacks
     const unsubscribeFeedbacks = onSnapshot(
@@ -111,26 +122,44 @@ export default function Admin() {
           list.push({ id: d.id, ...d.data() });
         });
         setFeedbacksList(list);
+      },
+      (error) => {
+        console.error("onSnapshot feedbacks error:", error);
+        handleFirestoreError(error, OperationType.LIST, 'feedbacks');
       }
     );
 
     // Load Users
-    const unsubscribeUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
-      const list: any[] = [];
-      snapshot.forEach(d => {
-        list.push({ id: d.id, ...d.data() });
-      });
-      setUsersList(list);
-    });
+    const unsubscribeUsers = onSnapshot(
+      collection(db, 'users'), 
+      (snapshot) => {
+        const list: any[] = [];
+        snapshot.forEach(d => {
+          list.push({ id: d.id, ...d.data() });
+        });
+        setUsersList(list);
+      },
+      (error) => {
+        console.error("onSnapshot users error:", error);
+        handleFirestoreError(error, OperationType.LIST, 'users');
+      }
+    );
 
     // Load Comments
-    const unsubscribeComments = onSnapshot(collection(db, 'comments'), (snapshot) => {
-      const list: any[] = [];
-      snapshot.forEach(d => {
-        list.push({ id: d.id, ...d.data() });
-      });
-      setCommentsList(list);
-    });
+    const unsubscribeComments = onSnapshot(
+      collection(db, 'comments'), 
+      (snapshot) => {
+        const list: any[] = [];
+        snapshot.forEach(d => {
+          list.push({ id: d.id, ...d.data() });
+        });
+        setCommentsList(list);
+      },
+      (error) => {
+        console.error("onSnapshot comments error:", error);
+        handleFirestoreError(error, OperationType.LIST, 'comments');
+      }
+    );
 
     return () => {
       unsubscribeComics();
@@ -232,9 +261,9 @@ export default function Admin() {
     try {
       await deleteDoc(doc(db, 'comics', id));
       showToast("Шастир амжилттай устлаа.");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Delete comic failed:", err);
-      showToast("Устгахад алдаа гарлаа.");
+      showToast(`Устгахад алдаа гарлаа: ${err?.message || err}`);
     }
   };
 
@@ -426,18 +455,18 @@ export default function Admin() {
       <div className="top-banner-gradient" />
 
       {/* Admin Headers */}
-      <header className="border-b border-brand-gold/10 bg-[#111111] px-8 py-6 relative">
+      <header className="border-b border-brand-gold/10 bg-[#111111] px-4 sm:px-8 py-4 sm:py-6 relative">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="text-3xl text-brand-gold font-display font-black leading-none">ᠪᠣᠭᠳᠠ</span>
             <div className="border-l border-brand-gold/20 pl-4">
-              <h1 className="text-2xl font-display font-medium text-white uppercase tracking-widest">Удирдах Их Өргөө</h1>
+              <h1 className="text-xl sm:text-2xl font-display font-medium text-white uppercase tracking-widest">Удирдах Их Өргөө</h1>
               <p className="text-brand-gold text-[9px] uppercase tracking-[0.3em] font-sans font-bold">Хааны архив ба Хяналтын зөвлөл</p>
             </div>
           </div>
 
           {/* Admin Profiler in Header */}
-          <div className="flex items-center gap-4 bg-[#1a1a1a]/80 border border-brand-gold/10 p-2 pl-4 pr-6 rounded-2xl shadow-xl">
+          <div className="flex items-center gap-4 bg-[#1a1a1a]/80 border border-brand-gold/10 p-2 pl-4 pr-6 rounded-2xl shadow-xl w-full md:w-auto">
             {user.photoURL ? (
               <img 
                 src={user.photoURL} 
@@ -467,7 +496,7 @@ export default function Admin() {
       </header>
 
       {/* Primary body grid */}
-      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12 flex flex-col lg:flex-row gap-6 sm:gap-12">
         
         {/* Sidebar Panel styled with #111111 */}
         <aside className="lg:w-80 shrink-0 bg-[#111111] border border-brand-gold/15 rounded-2xl p-6 relative h-fit shadow-xl shadow-black/60">
@@ -571,7 +600,7 @@ export default function Admin() {
                 className="space-y-12"
               >
                 {/* Save Comic Form */}
-                <div className="bg-[#111111] border border-brand-gold/15 rounded-2xl p-8 shadow-xl text-left">
+                <div className="bg-[#111111] border border-brand-gold/15 rounded-2xl p-4 sm:p-8 shadow-xl text-left">
                   <div className="flex gap-3 items-center mb-6 border-b border-brand-gold/10 pb-4">
                     <BookOpen className="text-brand-gold" size={24} />
                     <h2 className="text-xl font-display font-bold text-white uppercase tracking-widest">
@@ -753,7 +782,7 @@ export default function Admin() {
                 </div>
 
                 {/* Add Chapters Form */}
-                <div className="bg-[#111111] border border-brand-gold/15 rounded-2xl p-8 shadow-xl text-left">
+                <div className="bg-[#111111] border border-brand-gold/15 rounded-2xl p-4 sm:p-8 shadow-xl text-left">
                   <div className="flex gap-3 items-center mb-6 border-b border-brand-gold/10 pb-4">
                     <Plus className="text-brand-gold" size={24} />
                     <h2 className="text-xl font-display font-bold text-white uppercase tracking-widest">📚 ШИНЭ БҮЛЭГ НЭМЭХ</h2>
@@ -818,7 +847,7 @@ export default function Admin() {
                           required
                           value={chapterPagesText}
                           onChange={(e) => setChapterPagesText(e.target.value)}
-                          placeholder="Mөр бүрт зургийн холбоос байрлана, Жишээ:&#10;/src/assets/images/parchment_texture_bg_1779099850609.png&#10;https://images.unsplash.com/promo-art..."
+                          placeholder="Mөр бүрт зургийн холбоос байрлана, Жишээ:&#10;/assets/images/parchment_texture_bg_1779099850609.png&#10;https://images.unsplash.com/promo-art..."
                           className="w-full bg-[#1c1c1c] border border-brand-gold/20 focus:border-brand-gold outline-none p-3 text-xs text-white rounded-xl font-mono"
                         />
                       </div>
@@ -878,12 +907,12 @@ export default function Admin() {
                     {comicsList.map((comic) => (
                       <div 
                         key={comic.id} 
-                        className="bg-[#111111] border-2 border-brand-gold/10 hover:border-brand-gold/30 p-6 rounded-2xl flex gap-6 shadow-xl transition-all relative group"
+                        className="bg-[#111111] border-2 border-brand-gold/10 hover:border-brand-gold/30 p-4 sm:p-6 rounded-2xl flex gap-4 sm:gap-6 shadow-xl transition-all relative group"
                       >
                         <img 
                           src={comic.coverImage} 
                           alt={comic.title} 
-                          className="w-24 h-32 object-cover border border-brand-gold/25 rounded-xl shrink-0 shadow-lg shadow-black/80"
+                          className="w-20 h-28 sm:w-24 sm:h-32 object-cover border border-brand-gold/25 rounded-xl shrink-0 shadow-lg shadow-black/80"
                           referrerPolicy="no-referrer"
                         />
                         <div className="flex-grow flex flex-col justify-between truncate">
@@ -1201,7 +1230,7 @@ export default function Admin() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed bottom-8 right-8 z-[100] bg-brand-charcoal border border-brand-gold flex items-center gap-3 py-4 px-6 rounded-2xl shadow-2xl"
+            className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[100] bg-brand-charcoal border border-brand-gold flex items-center gap-3 py-3 sm:py-4 px-4 sm:px-6 rounded-2xl shadow-xl"
           >
             <CheckCircle className="text-brand-gold" size={20} />
             <span className="text-sm font-sans font-bold text-white">{toastMessage}</span>

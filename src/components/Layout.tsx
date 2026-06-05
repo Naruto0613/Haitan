@@ -90,15 +90,15 @@ export default function Layout({ children }: LayoutProps) {
             </motion.div>
           </AnimatePresence>
           
-          <footer className="px-8 py-6 border-t border-brand-gold/10 flex flex-col md:flex-row items-center justify-between text-[10px] text-brand-cream/40 uppercase tracking-widest mt-auto">
-            <div>© 1206-2024 HAITAN АРХИВ</div>
-            <div className="flex gap-8 my-4 md:my-0">
+          <footer className="px-4 sm:px-8 py-6 border-t border-brand-gold/10 flex flex-col md:flex-row items-center justify-between text-[9px] sm:text-[10px] text-brand-cream/40 uppercase tracking-widest mt-auto gap-4">
+            <div className="text-center md:text-left">© 1206-2024 HAITAN АРХИВ</div>
+            <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-2 my-2 md:my-0">
               <span className="hover:text-brand-gold cursor-pointer transition-colors">Үйлчилгээний нөхцөл</span>
               <span className="hover:text-brand-gold cursor-pointer transition-colors">Нууцлал</span>
               <span className="hover:text-brand-gold cursor-pointer transition-colors">Холбоо барих</span>
-              <Link to="/admin" className="hover:text-brand-gold cursor-pointer transition-colors border-l border-brand-gold/20 pl-8">Админ хэсэг</Link>
+              <Link to="/admin" className="hover:text-brand-gold cursor-pointer transition-colors border-l border-brand-gold/20 pl-4 sm:pl-6">Админ хэсэг</Link>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <span className="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
               <span>Сервер: Хархорум-Үндсэн</span>
             </div>

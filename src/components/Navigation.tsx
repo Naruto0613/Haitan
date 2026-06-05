@@ -59,7 +59,7 @@ export default function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-md border-b border-brand-gold/10">
       <div className="top-banner-gradient" />
-      <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-4 group">
           <div className="w-8 h-8 border border-brand-gold rounded-lg rotate-45 flex items-center justify-center group-hover:rotate-90 transition-transform duration-500">
             <span className="text-brand-gold font-display font-bold text-sm -rotate-45 group-hover:-rotate-90 transition-transform duration-500">H</span>
@@ -167,9 +167,9 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-brand-dark border-b border-brand-gold/20 px-6 py-6"
+          className="md:hidden absolute top-16 left-0 right-0 bg-brand-dark/98 backdrop-blur-lg border-b border-brand-gold/20 px-6 py-6 shadow-2xl z-50"
         >
           <div className="flex flex-col gap-6">
             {navItems.map((item) => (

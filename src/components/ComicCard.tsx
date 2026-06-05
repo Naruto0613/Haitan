@@ -8,8 +8,12 @@ interface ComicCardProps {
 }
 
 export default function ComicCard({ comic }: ComicCardProps) {
+  const firstChapterId = comic.chapters && comic.chapters.length > 0 
+    ? comic.chapters[0].id 
+    : 'c1';
+
   return (
-    <Link to={`/library`} className="group flex flex-col gap-3">
+    <Link to={`/reader/${comic.id}/${firstChapterId}`} className="group flex flex-col gap-3">
       <div className="aspect-[3/4] bg-brand-charcoal border border-white/5 group-hover:border-brand-gold transition-all p-1.5 duration-500 shadow-xl overflow-hidden relative rounded-2xl">
         <div className="w-full h-full bg-[#2a2a2a] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 relative rounded-xl">
           <img
