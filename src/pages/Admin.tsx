@@ -41,9 +41,10 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Comic, Chapter } from "../types";
+import { MOCK_COMICS } from "../data";
 
 // Admin emails allowed
-const ADMIN_EMAILS = ["naranbadrakh1013@gmail.com", "Enkhmend8088@gmail.com"];
+const ADMIN_EMAILS = ["naranbadrakh1013@gmail.com", "haitan.admin@gmail.com"];
 
 export default function Admin() {
   const { user, loginWithGoogle, logout } = useAuth();
@@ -51,6 +52,7 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState<
     "comics" | "feedback" | "users" | "comments"
   >("comics");
+  const [isSeeding, setIsSeeding] = useState(false);
 
   // Firebase Live states
   const [comicsList, setComicsList] = useState<Comic[]>([]);
@@ -254,9 +256,15 @@ export default function Admin() {
       setComicCoverURL("");
       setComicCategory("Түүхэн Тулаант");
       setComicStatus("Үргэлжилж буй");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Save comic failed:", err);
-      showToast("Хадгалахад алдаа гарлаа.");
+      const errorMsg = err?.message || String(err);
+      showToast(`Хадгалахад алдаа гарлаа: ${errorMsg}`);
+      try {
+        handleFirestoreError(err, OperationType.WRITE, `comics/${id}`);
+      } catch (f) {
+        // Log locally to keep execution going without completely halting the main thread
+      }
     }
   };
 
@@ -281,6 +289,31 @@ export default function Admin() {
     } catch (err: any) {
       console.error("Delete comic failed:", err);
       showToast(`Устгахад алдаа гарлаа: ${err?.message || err}`);
+    }
+  };
+
+  const handleSeedDefaultComics = async () => {
+    if (!confirm("Үндсэн жишээ шастируудыг мэдээллийн санд оруулах уу?"))
+      return;
+    setIsSeeding(true);
+    try {
+      // First update the _config document to mark initialized
+      await setDoc(doc(db, "comics", "_config"), {
+        id: "_config",
+        title: "Config",
+        author: "System",
+      } as any);
+
+      // Seed all mock comics directly
+      for (const comic of MOCK_COMICS) {
+        await setDoc(doc(db, "comics", comic.id), comic);
+      }
+      showToast("Жишээ шастирууд амжилттай сэргэлээ!");
+    } catch (err: any) {
+      console.error("Seeding failed:", err);
+      showToast(`Жишээ шастир салахад алдаа гарлаа: ${err?.message || err}`);
+    } finally {
+      setIsSeeding(false);
     }
   };
 
@@ -331,7 +364,7 @@ export default function Admin() {
     const lines = chapterPagesText
       .split("\n")
       .map((l) => l.trim())
-      .filter((l) => l.startsWith("http") || l.startsWith("/src"));
+      .filter((l) => l.length > 0);
     if (lines.length === 0) {
       showToast("Хуудсуудын зургийн URL хаяг зөв биш байна.");
       return;
@@ -366,9 +399,19 @@ export default function Admin() {
       setChapterTitle("");
       setChapterNumber(updatedChapters.length + 1);
       setChapterPagesText("");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Add chapter failed:", err);
-      showToast("Бүлэг нэмэхэд алдаа гарлаа.");
+      const errorMsg = err?.message || String(err);
+      showToast(`Бүлэг нэмэхэд алдаа гарлаа: ${errorMsg}`);
+      try {
+        handleFirestoreError(
+          err,
+          OperationType.UPDATE,
+          `comics/${selectedComicId}`,
+        );
+      } catch (f) {
+        // Log locally to keep execution going safely
+      }
     }
   };
 
@@ -1063,9 +1106,27 @@ export default function Admin() {
 
                 {/* Comics List with Live Data */}
                 <div className="space-y-6">
-                  <h3 className="text-xl font-display font-bold text-white uppercase tracking-widest text-left border-l-2 border-brand-gold pl-3">
-                    📚 БҮХ ШАСТИРЫН ЖАГСААЛТ ({comicsList.length})
-                  </h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-l-2 border-brand-gold pl-3">
+                    <h3 className="text-xl font-display font-bold text-white uppercase tracking-widest text-left">
+                      📚 БҮХ ШАСТИРЫН ЖАГСААЛТ ({comicsList.length})
+                    </h3>
+
+                    <button
+                      type="button"
+                      onClick={handleSeedDefaultComics}
+                      disabled={isSeeding}
+                      className="self-start sm:self-auto px-4 py-2 bg-brand-gold/10 hover:bg-brand-gold border border-brand-gold/30 hover:border-brand-gold text-brand-gold hover:text-brand-dark transition-all duration-300 text-[10px] font-sans font-bold uppercase tracking-wider rounded-xl flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-[10px]"
+                    >
+                      {isSeeding ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          Сэргээж байна...
+                        </>
+                      ) : (
+                        <>✨ Жишээ шастируудыг оруулах</>
+                      )}
+                    </button>
+                  </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                     {comicsList.map((comic) => (
