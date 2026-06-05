@@ -15,7 +15,7 @@ service cloud.firestore {
       // Allow only the 2 hardcoded Gmail admin accounts
       return isSignedIn() && (
         request.auth.token.email == 'naranbadrakh1013@gmail.com' ||
-        request.auth.token.email == 'haitan.admin@gmail.com'
+        request.auth.token.email == 'Enkhmend8088@gmail.com'
       );
     }
 
