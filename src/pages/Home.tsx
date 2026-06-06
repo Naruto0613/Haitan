@@ -1,17 +1,44 @@
-import { motion } from 'motion/react';
-import { ChevronRight, Play, BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useComics } from '../contexts/ComicsContext';
-import ComicCard from '../components/ComicCard';
+import { motion } from "motion/react";
+import { ChevronRight, Play, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useComics } from "../contexts/ComicsContext";
+import ComicCard from "../components/ComicCard";
 
 export default function Home() {
   const { comics, loading } = useComics();
 
-  if (loading || comics.length === 0) {
+  if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-brand-cream/60 font-serif italic mt-4 uppercase text-xs tracking-widest">Ачаалж байна...</p>
+        <p className="text-brand-cream/60 font-serif italic mt-4 uppercase text-xs tracking-widest">
+          Ачаалж байна...
+        </p>
+      </div>
+    );
+  }
+
+  if (comics.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[65vh] max-w-md mx-auto p-4 text-center space-y-6">
+        <div className="w-16 h-16 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center text-brand-gold shadow-lg shadow-black/50">
+          <BookOpen size={30} />
+        </div>
+        <div>
+          <h2 className="text-xl font-display font-bold text-white uppercase tracking-widest mb-2">
+            Мэдээллийн сан хоосон байна
+          </h2>
+          <p className="text-xs font-sans text-stone-400 leading-relaxed">
+            Одоогоор унших шастир оруулаагүй байна. Та Админ хэсэгт нэвтэрч
+            шинээр шастир нэмэх буюу жишээ өгөгдөл оруулж үзнэ үү.
+          </p>
+        </div>
+        <Link
+          to="/admin"
+          className="px-6 py-3 bg-brand-gold hover:bg-brand-amber text-brand-dark font-sans font-bold uppercase tracking-widest text-[10px] rounded-xl transition-all shadow-lg"
+        >
+          Админ хэсэг рүү очих
+        </Link>
       </div>
     );
   }
@@ -25,22 +52,25 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/40 to-transparent z-10" />
         <div className="absolute inset-0 opacity-40 group-hover:scale-110 transition-transform duration-[2000ms]">
           <img
-            src="/assets/images/haitan_hero_1779099801289.png"
+            src="https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?auto=format&fit=crop&q=80&w=1200"
             alt="Haitan Hero"
             className="w-full h-full object-cover grayscale brightness-75"
             referrerPolicy="no-referrer"
           />
         </div>
-        
+
         <div className="relative z-20 flex flex-col justify-center py-12 px-5 sm:px-12 md:px-20 max-w-2xl">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-brand-gold text-[9px] sm:text-[10px] font-bold tracking-[0.5em] mb-4 block uppercase leading-none">Онцлох Тууль</span>
+            <span className="text-brand-gold text-[9px] sm:text-[10px] font-bold tracking-[0.5em] mb-4 block uppercase leading-none">
+              Онцлох Тууль
+            </span>
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-black tracking-tighter leading-[0.95] mb-5 uppercase italic text-brand-cream">
-              Бэх ба Цус:<br/>
+              Бэх ба Цус:
+              <br />
               <span className="text-brand-gold">Төмөр Хаган</span>
             </h2>
             <p className="max-w-md text-xs sm:text-sm text-brand-cream/70 font-serif leading-relaxed mb-6 italic border-l border-brand-gold/20 pl-4">
@@ -65,10 +95,17 @@ export default function Home() {
       <section>
         <div className="flex justify-between items-end mb-8 border-b border-brand-gold/10 pb-4">
           <div>
-            <h3 className="text-lg font-display font-bold tracking-[0.2em] uppercase text-brand-gold">Шинээр нэмэгдсэн</h3>
-            <p className="text-[10px] text-brand-cream/40 uppercase tracking-widest mt-1">Тал нутгийн цуурай</p>
+            <h3 className="text-lg font-display font-bold tracking-[0.2em] uppercase text-brand-gold">
+              Шинээр нэмэгдсэн
+            </h3>
+            <p className="text-[10px] text-brand-cream/40 uppercase tracking-widest mt-1">
+              Тал нутгийн цуурай
+            </p>
           </div>
-          <Link to="/library" className="text-[10px] text-brand-cream/40 hover:text-brand-gold uppercase tracking-widest transition-colors font-bold">
+          <Link
+            to="/library"
+            className="text-[10px] text-brand-cream/40 hover:text-brand-gold uppercase tracking-widest transition-colors font-bold"
+          >
             Бүх шастирыг үзэх →
           </Link>
         </div>
@@ -91,9 +128,13 @@ export default function Home() {
       <section className="mt-8 bg-brand-charcoal/30 border border-brand-gold/5 p-12 relative overflow-hidden rounded-2xl">
         <div className="soyombo-pattern absolute inset-0 opacity-5 pointer-events-none" />
         <div className="max-w-2xl relative z-10">
-          <h2 className="text-2xl font-display font-bold text-brand-gold mb-6 uppercase tracking-widest">Үл бичигдсэн түүхийг хадгалах нь</h2>
+          <h2 className="text-2xl font-display font-bold text-brand-gold mb-6 uppercase tracking-widest">
+            Үл бичигдсэн түүхийг хадгалах нь
+          </h2>
           <p className="text-brand-cream/60 font-serif italic text-base leading-relaxed mb-8 border-l border-brand-gold/20 pl-6">
-            Haitan нь нэгэн алсын хараанаас төрсөн: нүүдэлчдийн эзэнт гүрний биет бус өвийг кино урлагийн визуал хэл рүү хөрвүүлэх. Түүх бол зөвхөн амьд байх биш, мэдрэх явдал гэж бид итгэдэг.
+            Haitan нь нэгэн алсын хараанаас төрсөн: нүүдэлчдийн эзэнт гүрний
+            биет бус өвийг кино урлагийн визуал хэл рүү хөрвүүлэх. Түүх бол
+            зөвхөн амьд байх биш, мэдрэх явдал гэж бид итгэдэг.
           </p>
           <Link
             to="/about"

@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ShieldCheck, MapPin, Feather, Landmark, Star, MessageSquare, CheckCircle } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { db } from '../lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import {
+  ShieldCheck,
+  MapPin,
+  Feather,
+  Landmark,
+  Star,
+  MessageSquare,
+  CheckCircle,
+} from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { db } from "../lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function About() {
   const { user, loginWithGoogle } = useAuth();
   const [rating, setRating] = useState<number>(5);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -18,18 +26,18 @@ export default function About() {
 
     setSubmitting(true);
     try {
-      await addDoc(collection(db, 'feedbacks'), {
+      await addDoc(collection(db, "feedbacks"), {
         userId: user.uid,
-        userName: user.displayName || 'Үл мэдэгдэх хэрэглэгч',
-        userPhoto: user.photoURL || '',
-        email: user.email || '',
+        userName: user.displayName || "Үл мэдэгдэх хэрэглэгч",
+        userPhoto: user.photoURL || "",
+        email: user.email || "",
         message: message.trim(),
         rating,
         isRead: false,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
       setSubmitted(true);
-      setMessage('');
+      setMessage("");
       setRating(5);
     } catch (err) {
       console.error("Feedback submit error:", err);
@@ -39,21 +47,21 @@ export default function About() {
   };
 
   const values = [
-    { 
-      icon: Feather, 
-      title: 'Түүхэн Үнэн', 
-      desc: 'Бид 13-р зууны хуяг дуулга, зэвсэг, соёлын нарийн хэлбэрийг үнэн зөвөөр харуулахын тулд түүхчидтэй хамтран ажилладаг.' 
+    {
+      icon: Feather,
+      title: "Түүхэн Үнэн",
+      desc: "Бид 13-р зууны хуяг дуулга, зэвсэг, соёлын нарийн хэлбэрийг үнэн зөвөөр харуулахын тулд түүхчидтэй хамтран ажилладаг.",
     },
-    { 
-      icon: Landmark, 
-      title: 'Аман Уламжлал', 
-      desc: 'Монголын түүхийн ихэнх хэсэг дуу хуур, аман домогоор амьдардаг. Бид эдгээр биет бус өвийг визуал хивсэнцэрт хөрвүүлдэг.' 
+    {
+      icon: Landmark,
+      title: "Аман Уламжлал",
+      desc: "Монголын түүхийн ихэнх хэсэг дуу хуур, аман домогоор амьдардаг. Бид эдгээр биет бус өвийг визуал хивсэнцэрт хөрвүүлдэг.",
     },
-    { 
-      icon: ShieldCheck, 
-      title: 'Соёлын Хадгалалт', 
-      desc: 'Haitan бол зөвхөн комик сайт биш; энэ нь Монголын ирээдүй хойч үеийн түүхч нарт урам зориг өгөх дижитал архив юм.' 
-    }
+    {
+      icon: ShieldCheck,
+      title: "Соёлын Хадгалалт",
+      desc: "Haitan бол зөвхөн комик сайт биш; энэ нь Монголын ирээдүй хойч үеийн түүхч нарт урам зориг өгөх дижитал архив юм.",
+    },
   ];
 
   return (
@@ -65,12 +73,16 @@ export default function About() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
         >
-          <span className="text-brand-gold font-display font-bold tracking-[0.5em] uppercase text-[10px] mb-4 sm:mb-6 block">Бидний Зорилго</span>
+          <span className="text-brand-gold font-display font-bold tracking-[0.5em] uppercase text-[10px] mb-4 sm:mb-6 block">
+            Бидний Зорилго
+          </span>
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-display font-black text-white mb-6 sm:mb-12 tracking-tight uppercase leading-none italic">
             Мөнх Тэнгэр Дахь <span className="text-brand-gold">Цуурай</span>
           </h1>
           <p className="text-base sm:text-xl text-brand-cream/60 font-serif leading-relaxed italic mb-8 sm:mb-16 px-2 sm:px-4">
-            "Haitan бол хоёр ертөнцийн уулзвар юм: бийрийн эртний бэх ба дэлгэцийн дижитал гэрэл. Бидний нэр түүхэн тэмдэглэл гэсэн утгаас гаралтай бөгөөд бидний зорилгыг тодорхойлдог."
+            "Haitan бол хоёр ертөнцийн уулзвар юм: бийрийн эртний бэх ба
+            дэлгэцийн дижитал гэрэл. Бидний нэр түүхэн тэмдэглэл гэсэн утгаас
+            гаралтай бөгөөд бидний зорилгыг тодорхойлдог."
           </p>
         </motion.div>
       </section>
@@ -78,18 +90,23 @@ export default function About() {
       {/* Vision Blocks */}
       <section className="grid grid-cols-1 md:grid-cols-2 md:h-[500px] border-y border-brand-gold/10 rounded-2xl overflow-hidden">
         <div className="relative h-64 md:h-full overflow-hidden group">
-          <img 
-            src="/assets/images/comic_cover_warrior_1779099818296.png" 
-            alt="Warrior" 
+          <img
+            src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&q=80&w=800"
+            alt="Warrior"
             className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-70 transition-all duration-[2000ms]"
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-brand-dark/20" />
         </div>
         <div className="bg-brand-charcoal p-6 sm:p-12 md:p-20 flex flex-col justify-center border-t md:border-t-0 md:border-l border-brand-gold/10">
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-brand-gold mb-4 sm:mb-6 uppercase tracking-widest leading-none italic">Бэх ба Өв</h2>
+          <h2 className="text-2xl sm:text-3xl font-display font-bold text-brand-gold mb-4 sm:mb-6 uppercase tracking-widest leading-none italic">
+            Бэх ба Өв
+          </h2>
           <p className="text-brand-cream/60 font-serif leading-relaxed text-sm sm:text-lg italic border-l border-brand-gold/10 pl-4 sm:pl-6">
-            Улаанбаатар хотоос үүсэлтэй Haitan нь түүхээ уйтгартай сурах бичигт үлдэхийг хараад залхсан уран бүтээлчдийн жижиг хүрээнээс эхэлсэн. Өвөг дээдсийн минь догшин ширүүн зан, мэргэн ухаан орчин үеийн график романы хэмжээнд байх ёстой гэж бид үздэг.
+            Улаанбаатар хотоос үүсэлтэй Haitan нь түүхээ уйтгартай сурах бичигт
+            үлдэхийг хараад залхсан уран бүтээлчдийн жижиг хүрээнээс эхэлсэн.
+            Өвөг дээдсийн минь догшин ширүүн зан, мэргэн ухаан орчин үеийн
+            график романы хэмжээнд байх ёстой гэж бид үздэг.
           </p>
         </div>
       </section>
@@ -97,7 +114,7 @@ export default function About() {
       {/* Values Grid */}
       <section className="max-w-7xl mx-auto py-16 sm:py-32 grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-16 px-2 sm:px-8">
         {values.map((v, i) => (
-          <motion.div 
+          <motion.div
             key={i}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -107,8 +124,12 @@ export default function About() {
             <div className="w-16 h-16 border border-brand-gold/20 flex items-center justify-center rotate-45 mb-10 group-hover:bg-brand-gold/10 group-hover:border-brand-gold transition-all duration-500 rounded-lg">
               <v.icon size={28} className="text-brand-gold -rotate-45" />
             </div>
-            <h3 className="text-lg font-display font-bold text-white mb-4 uppercase tracking-widest italic">{v.title}</h3>
-            <p className="text-brand-cream/40 font-serif italic text-sm leading-relaxed">{v.desc}</p>
+            <h3 className="text-lg font-display font-bold text-white mb-4 uppercase tracking-widest italic">
+              {v.title}
+            </h3>
+            <p className="text-brand-cream/40 font-serif italic text-sm leading-relaxed">
+              {v.desc}
+            </p>
           </motion.div>
         ))}
       </section>
@@ -119,7 +140,9 @@ export default function About() {
         <div className="relative z-10 flex flex-col items-center">
           <MapPin size={32} className="text-brand-gold mb-8 opacity-50" />
           <p className="text-center text-brand-cream/60 font-serif italic text-lg max-w-2xl leading-relaxed">
-            "Бид Номхон далайгаас Европын хаалга хүртэл мориор давхиж явсан агуу өвөг дээдсийнхээ мөрөн дээр зогсож байна. Тэдний түүх бол бидний бэх юм."
+            "Бид Номхон далайгаас Европын хаалга хүртэл мориор давхиж явсан агуу
+            өвөг дээдсийнхээ мөрөн дээр зогсож байна. Тэдний түүх бол бидний бэх
+            юм."
           </p>
         </div>
       </section>
@@ -131,13 +154,17 @@ export default function About() {
           <div className="flex items-center gap-3 border-b border-brand-gold/10 pb-4 mb-6">
             <MessageSquare className="text-brand-gold" size={24} />
             <div>
-              <h3 className="text-xl font-display font-bold text-white uppercase tracking-widest leading-none">Санал Хүсэлт Илгээх</h3>
-              <p className="text-[10px] font-sans tracking-widest text-brand-gold uppercase mt-1">Түүхийн төслийг улам боловсронгуй болгоход тусална уу</p>
+              <h3 className="text-xl font-display font-bold text-white uppercase tracking-widest leading-none">
+                Санал Хүсэлт Илгээх
+              </h3>
+              <p className="text-[10px] font-sans tracking-widest text-brand-gold uppercase mt-1">
+                Түүхийн төслийг улам боловсронгуй болгоход тусална уу
+              </p>
             </div>
           </div>
 
           {submitted ? (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-12 space-y-4"
@@ -145,9 +172,12 @@ export default function About() {
               <div className="w-16 h-16 bg-brand-gold/10 border border-brand-gold/30 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle className="text-brand-gold" size={32} />
               </div>
-              <h4 className="text-lg font-display font-bold text-white uppercase tracking-wider">Их баярлалаа!</h4>
+              <h4 className="text-lg font-display font-bold text-white uppercase tracking-wider">
+                Их баярлалаа!
+              </h4>
               <p className="text-sm text-brand-cream/60 font-serif italic max-w-md mx-auto">
-                Таны ирүүлсэн санал хүсэлт удирдах нөхдөд шууд хүргэгдлээ. Бид бүтээлээ улам сайжруулахад чармайн ажиллах болно.
+                Таны ирүүлсэн санал хүсэлт удирдах нөхдөд шууд хүргэгдлээ. Бид
+                бүтээлээ улам сайжруулахад чармайн ажиллах болно.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -159,7 +189,9 @@ export default function About() {
           ) : (
             <form onSubmit={handleSubmitFeedback} className="space-y-6">
               <div className="space-y-2">
-                <span className="text-[10px] uppercase font-sans font-bold text-stone-400 tracking-wider">Төслийн ерөнхий үнэлгээ</span>
+                <span className="text-[10px] uppercase font-sans font-bold text-stone-400 tracking-wider">
+                  Төслийн ерөнхий үнэлгээ
+                </span>
                 <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
@@ -168,9 +200,13 @@ export default function About() {
                       onClick={() => setRating(star)}
                       className="text-stone-600 hover:scale-110 transition-transform"
                     >
-                      <Star 
-                        size={28} 
-                        className={star <= rating ? 'fill-brand-gold text-brand-gold' : 'text-[#333333]'} 
+                      <Star
+                        size={28}
+                        className={
+                          star <= rating
+                            ? "fill-brand-gold text-brand-gold"
+                            : "text-[#333333]"
+                        }
                       />
                     </button>
                   ))}
@@ -178,7 +214,9 @@ export default function About() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] uppercase font-sans font-bold text-stone-400 tracking-wider">Таны санал, сэтгэгдэл</label>
+                <label className="text-[10px] uppercase font-sans font-bold text-stone-400 tracking-wider">
+                  Таны санал, сэтгэгдэл
+                </label>
                 <textarea
                   rows={4}
                   required
@@ -195,11 +233,14 @@ export default function About() {
                   disabled={submitting}
                   className="w-full bg-brand-gold hover:bg-brand-amber text-brand-dark font-sans font-black text-xs py-4 px-6 uppercase tracking-widest rounded-xl transition-all shadow-md active:scale-98 disabled:opacity-50"
                 >
-                  {submitting ? 'Илгээж байна...' : '⚔️ Саналаа дуулгах'}
+                  {submitting ? "Илгээж байна..." : "⚔️ Саналаа дуулгах"}
                 </button>
               ) : (
                 <div className="border border-brand-gold/10 p-5 rounded-2xl bg-brand-dark/40 text-center space-y-4">
-                  <p className="text-xs text-brand-cream/50 font-serif italic">Санал хүсэлт илгээхийн тулд Google хаягаараа нэврэх хэрэгтэй.</p>
+                  <p className="text-xs text-brand-cream/50 font-serif italic">
+                    Санал хүсэлт илгээхийн тулд Google хаягаараа нэврэх
+                    хэрэгтэй.
+                  </p>
                   <button
                     type="button"
                     onClick={loginWithGoogle}

@@ -1,28 +1,39 @@
-import React from 'react';
-import { Search, Filter, History } from 'lucide-react';
-import { useComics } from '../contexts/ComicsContext';
-import ComicCard from '../components/ComicCard';
-import { motion } from 'motion/react';
+import React from "react";
+import { Search, Filter, History } from "lucide-react";
+import { useComics } from "../contexts/ComicsContext";
+import ComicCard from "../components/ComicCard";
+import { motion } from "motion/react";
 
 export default function Library() {
   const { comics, loading } = useComics();
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [activeCategory, setActiveCategory] = React.useState('Бүгд');
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [activeCategory, setActiveCategory] = React.useState("Бүгд");
 
-  const categories = ['Бүгд', 'Түүхэн Тулаант', 'Эпик Фэнтези', 'Түүхэн Драм', 'Нууц'];
+  const categories = [
+    "Бүгд",
+    "Түүхэн Тулаант",
+    "Эпик Фэнтези",
+    "Түүхэн Драм",
+    "Нууц",
+  ];
 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <div className="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-brand-cream/60 font-serif italic mt-4 uppercase text-xs tracking-widest">Ачаалж байна...</p>
+        <p className="text-brand-cream/60 font-serif italic mt-4 uppercase text-xs tracking-widest">
+          Ачаалж байна...
+        </p>
       </div>
     );
   }
 
-  const filteredComics = comics.filter(comic => {
-    const matchesSearch = comic.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = activeCategory === 'Бүгд' || comic.category === activeCategory;
+  const filteredComics = comics.filter((comic) => {
+    const matchesSearch = comic.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      activeCategory === "Бүгд" || comic.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -33,15 +44,22 @@ export default function Library() {
           <div>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <History size={24} className="text-brand-gold" />
-              <h1 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-widest uppercase italic">Их Номын Сан</h1>
+              <h1 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-widest uppercase italic">
+                Их Номын Сан
+              </h1>
             </div>
             <p className="text-xs sm:text-sm text-brand-cream/60 font-serif italic max-w-xl">
-              "Мянган жилийн цуурай цаг хугацаанд нам гүм байсан ч одоо бэхийн дуслаар дахин төрж байна. Эзэнт гүрний цуглуулсан шастируудыг сонирхоно уу."
+              "Мянган жилийн цуурай цаг хугацаанд нам гүм байсан ч одоо бэхийн
+              дуслаар дахин төрж байна. Эзэнт гүрний цуглуулсан шастируудыг
+              сонирхоно уу."
             </p>
           </div>
-          
+
           <div className="relative group max-w-md w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-cream/30 group-focus-within:text-brand-gold transition-colors" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-cream/30 group-focus-within:text-brand-gold transition-colors"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Шастираас хайх..."
@@ -59,8 +77,8 @@ export default function Library() {
               onClick={() => setActiveCategory(cat)}
               className={`px-3 sm:px-6 py-1.5 sm:py-2 text-[9px] sm:text-[10px] uppercase tracking-widest font-bold transition-all border rounded-full ${
                 activeCategory === cat
-                  ? 'bg-brand-gold border-brand-gold text-brand-dark'
-                  : 'bg-brand-charcoal border-white/5 text-brand-cream/40 hover:border-brand-gold/50 hover:text-brand-gold'
+                  ? "bg-brand-gold border-brand-gold text-brand-dark"
+                  : "bg-brand-charcoal border-white/5 text-brand-cream/40 hover:border-brand-gold/50 hover:text-brand-gold"
               }`}
             >
               {cat}
@@ -94,18 +112,18 @@ export default function Library() {
   );
 }
 
-function BookOff({ size, className }: { size: number, className: string }) {
+function BookOff({ size, className }: { size: number; className: string }) {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="1.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />

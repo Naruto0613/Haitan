@@ -196,6 +196,35 @@ export default function Admin() {
     }
   };
 
+  // Beautiful, high-quality themed covers for administrative presets
+  const PRESET_COVERS = [
+    {
+      name: "Алтан Орд",
+      url: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&q=80&w=600",
+      desc: "Хөө хуягт баатар",
+    },
+    {
+      name: "Их Тэнгэр",
+      url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=600",
+      desc: "Тал нутгийн байгаль",
+    },
+    {
+      name: "Ардын Тууль",
+      url: "https://images.unsplash.com/photo-1507041957456-9c397ce39c97?auto=format&fit=crop&q=80&w=600",
+      desc: "Монгол гэр, өргөө",
+    },
+    {
+      name: "Хархорин",
+      url: "https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?auto=format&fit=crop&q=80&w=600",
+      desc: "Нийслэл хотын туурь",
+    },
+    {
+      name: "Эртний Зэвсэг",
+      url: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&q=80&w=600",
+      desc: "Домогт сэлэм",
+    },
+  ];
+
   // 1. Comics operations
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -208,9 +237,15 @@ export default function Admin() {
       const url = await getDownloadURL(snapshot.ref);
       setComicCoverURL(url);
       showToast("Нүүр зураг амжилттай байршлаа!");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Cover upload error:", err);
-      showToast("Зураг байршуулахад алдаа гарлаа.");
+      // Fallback auto-generation to prevent blocking when Storage is unprovisioned
+      const randomPreset =
+        PRESET_COVERS[Math.floor(Math.random() * PRESET_COVERS.length)];
+      setComicCoverURL(randomPreset.url);
+      showToast(
+        `Зураг байршуулахад алдаа гарлаа (Файл хадгалах сан үүсээгүй байна). Бид танд жишээ зураг холбож өглөө: ${randomPreset.name}`,
+      );
     } finally {
       setIsUploadingCover(false);
     }
@@ -339,9 +374,22 @@ export default function Admin() {
       const delimiter = existingText ? "\n" : "";
       setChapterPagesText(existingText + delimiter + urls.join("\n"));
       showToast(`${files.length} хуудасны зураг амжилттай байршлаа!`);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Pages upload error:", err);
-      showToast("Хуудас байршуулахад алдаа гарлаа.");
+      const fallbackUrls = [
+        "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=800",
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800",
+      ];
+      const existingText = chapterPagesText.trim();
+      const delimiter = existingText ? "\n" : "";
+      setChapterPagesText(
+        existingText +
+          delimiter +
+          fallbackUrls.slice(0, files.length).join("\n"),
+      );
+      showToast(
+        `Хуудас байршуулахад алдаа гарлаа. Бид танд жишээ туульсын хуудсууд холбож өглөө!`,
+      );
     } finally {
       setIsUploadingPages(false);
     }
@@ -887,6 +935,45 @@ export default function Admin() {
                               />
                             </div>
                           </div>
+
+                          {/* Predefined cover arts gallery */}
+                          <div className="mt-3 bg-brand-dark/40 border border-brand-gold/10 p-3 rounded-xl">
+                            <span className="text-[9px] uppercase font-bold text-[#bca16d] block mb-2">
+                              ✨ БЭЛЭН ЗУРГААС СОНГОХ (Firebase ачаалахгүй бол):
+                            </span>
+                            <div className="grid grid-cols-5 gap-2">
+                              {PRESET_COVERS.map((preset) => (
+                                <button
+                                  key={preset.name}
+                                  type="button"
+                                  onClick={() => {
+                                    setComicCoverURL(preset.url);
+                                    showToast(
+                                      `"${preset.name}" зургийг нүүрээр сонголоо!`,
+                                    );
+                                  }}
+                                  className={`group relative h-14 rounded-lg overflow-hidden border transition-all ${
+                                    comicCoverURL === preset.url
+                                      ? "border-brand-gold ring-1 ring-brand-gold bg-brand-gold/10"
+                                      : "border-white/10 hover:border-brand-gold/50 bg-[#1c1c1c]"
+                                  }`}
+                                  title={`${preset.name} - ${preset.desc}`}
+                                >
+                                  <img
+                                    src={preset.url}
+                                    alt={preset.name}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 pointer-events-none"
+                                    referrerPolicy="no-referrer"
+                                  />
+                                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span className="text-[8px] font-sans text-brand-gold font-bold uppercase truncate px-1">
+                                      {preset.name}
+                                    </span>
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -1034,6 +1121,27 @@ export default function Admin() {
                           placeholder="Mөр бүрт зургийн холбоос байрлана, Жишээ:&#10;/assets/images/parchment_texture_bg_1779099850609.png&#10;https://images.unsplash.com/promo-art..."
                           className="w-full bg-[#1c1c1c] border border-brand-gold/20 focus:border-brand-gold outline-none p-3 text-xs text-white rounded-xl font-mono"
                         />
+                        <div className="flex justify-between items-center mt-1.5 bg-brand-dark/35 border border-brand-gold/5 p-2 rounded-xl">
+                          <span className="text-[9px] text-stone-500 font-sans">
+                            Зураг сонгох ажиллахгүй бол:
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const existingText = chapterPagesText.trim();
+                              const delimiter = existingText ? "\n" : "";
+                              const samplePage =
+                                "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=800";
+                              setChapterPagesText(
+                                existingText + delimiter + samplePage,
+                              );
+                              showToast("Жишээ хуудасны URL нэмэгдлээ!");
+                            }}
+                            className="text-[9px] uppercase font-sans font-bold text-brand-gold hover:text-white transition-colors bg-brand-gold/10 hover:bg-brand-gold px-2.5 py-1 rounded-lg cursor-pointer"
+                          >
+                            ✨ Жишээ хуудас нэмэх
+                          </button>
+                        </div>
                       </div>
                     </div>
 
